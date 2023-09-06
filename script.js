@@ -162,7 +162,7 @@ const deletePet = (petId) => {
     listID.splice(indexOfPetId, 1);
     petArr.splice(indexOfPetId, 1);
     // show lại danh sach thu cung sau khi xoa
-    showDanhSachThuCung();
+    showDanhSachThuCung(petArr);
   }
 };
 
