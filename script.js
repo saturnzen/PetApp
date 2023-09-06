@@ -144,10 +144,10 @@ const clearInput = () => {
   idInput.value = "";
   nameInput.value = "";
   ageInput.value = "";
-  typeInput.value = "Select type";
+  typeInput.value = "";
   weightInput.value = "";
   lengthInput.value = "";
-  breedInput.value = "Select breed";
+  breedInput.value = "";
   vaccinatedInput.checked = false;
   dewormedInput.checked = false;
   sterilizedInput.checked = false;
@@ -160,7 +160,7 @@ const deletePet = (petId) => {
     // lấy vị trí của ID từ listID, dùng nó để xóa object tương ứng trong petArr
     const indexOfPetId = listID.indexOf(petId);
     listID.splice(indexOfPetId, 1);
-    petArr.splice(indexOfPetId, 1);
+    petArr.splice(indexOfPetId khi, 1);
     // show lại danh sach thu cung sau khi xoa
     showDanhSachThuCung(petArr);
   }
