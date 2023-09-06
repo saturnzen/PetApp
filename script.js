@@ -144,10 +144,10 @@ const clearInput = () => {
   idInput.value = "";
   nameInput.value = "";
   ageInput.value = "";
-  typeInput.value = "";
+  typeInput.value = "Select Type";
   weightInput.value = "";
   lengthInput.value = "";
-  breedInput.value = "";
+  breedInput.value = "Select Breed";
   vaccinatedInput.checked = false;
   dewormedInput.checked = false;
   sterilizedInput.checked = false;
