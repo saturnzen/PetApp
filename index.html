@@ -51,16 +51,34 @@
         </div>
 
         <ul class="list-unstyled components">
-          <li class="active">
-            <a href="#">
+          <li class="">
+            <a href="index.html">
               <i class="bi bi-house"></i>
               Home
             </a>
           </li>
           <li class="">
-            <a href="#">
-              <i class="bi bi-file-earmark-person"></i>
-              About
+            <a href="page\edit.html">
+              <i class="bi bi-pencil-square"></i>
+              Edit
+            </a>
+          </li>
+          <li class="">
+            <a href="page\search.html">
+              <i class="bi bi-search"></i>
+              Search
+            </a>
+          </li>
+          <li class="">
+            <a href="page\breed.html">
+              <i class="bi bi-list-ul"></i>
+              Breed
+            </a>
+          </li>
+          <li class="active">
+            <a href="page\data.html">
+              <i class="bi bi-clipboard-data"></i>
+              Data
             </a>
           </li>
         </ul>
@@ -175,14 +193,14 @@
                   <div class="col-sm-3">
                     <select class="form-control" id="input-breed">
                       <option>Select Breed</option>
-                      <option>Tabby</option>
+                      <!-- <option>Tabby</option>
                       <option>Domestic Medium Hair</option>
                       <option>Mixed Breed</option>
                       <option>Domestic Short Hair</option>
                       <option>Terrier</option>
                       <option>Greyhound</option>
                       <option>Persian</option>
-                      <option>Rottweiler</option>
+                      <option>Rottweiler</option> -->
                     </select>
                   </div>
                 </div>
@@ -311,6 +329,7 @@
         sidebarEl.classList.toggle("active");
       });
     </script>
+    <script src="./storage.js"></script>
     <script src="./script.js"></script>
   </body>
 </html>
