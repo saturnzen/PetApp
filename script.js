@@ -15,12 +15,30 @@ const dewormedInput = document.getElementById("input-dewormed");
 const sterilizedInput = document.getElementById("input-sterilized");
 const bmiBtn = document.getElementById("bmi-btn");
 const tableBodyEl = document.getElementById("tbody");
-
 //danh sách thú cưng
-const petArr = [];
-
+let petArrStringify;
+let defaultVal = JSON.stringify({
+  id: "",
+  name: "",
+  age: "",
+  type: "",
+  weight: "",
+  length: "",
+  color: "",
+  breed: "",
+  vaccinated: "",
+  dewormed: "",
+  sterilized: "",
+  date: new Date(),
+  bmi: "?",
+});
+const petArr =
+  getFromStorage("petArrLocalStorage") === undefined
+    ? []
+    : JSON.parse(getFromStorage("petArrLocalStorage"));
 // danh sách ID dùng cho xóa dữ liệu
 const listID = [];
+petArr.forEach((pet) => listID.push(pet.id));
 
 //8. Hiển thị các thú cưng khỏe mạnh
 
@@ -30,12 +48,13 @@ let healthyCheck = false;
 
 // mảng lưu danh sách thú cưng là Healthy Pet
 const healthyCheckBtn = document.getElementById("healthy-btn");
-
+let healthyCheckBtnStringify;
 // các function
 function uppercaseFirstLetter(text) {
   return text[0].toUpperCase() + text.slice(1);
 }
 
+//Validate dữ liệu
 // Kiểm tra tên đã được nhập chưa
 const checkName = (valueCheck) => {
   if (valueCheck === "") {
@@ -81,6 +100,36 @@ function checkSelected(valueCheck, text) {
   }
 }
 
+//renderBreed: thêm Breed vào option
+typeInput.addEventListener("change", renderBreed);
+function renderBreed() {
+  for (let i = 0; i <= breedInput.options.length + 2; i++) {
+    breedInput.options.remove(1);
+  }
+  const breedArr =
+    getFromStorage("breedArrLocalStorage") === undefined
+      ? []
+      : JSON.parse(getFromStorage("breedArrLocalStorage"));
+  const dogArr = breedArr.filter((breed) => breed.type === "Dog");
+  const catArr = breedArr.filter((breed) => breed.type === "Cat");
+
+  if (typeInput.value === "Dog") {
+    dogArr.forEach((dog) => {
+      const optionDog = document.createElement("option");
+
+      optionDog.textContent = dog.name;
+      // optionDog.innerHTML = `${dog.name}`;
+      breedInput.appendChild(optionDog);
+    });
+  }
+  if (typeInput.value === "Cat") {
+    catArr.forEach((cat) => {
+      const optionCat = document.createElement("option");
+      optionCat.textContent = cat.name;
+      breedInput.appendChild(optionCat);
+    });
+  }
+}
 // Format date
 // https://www.freecodecamp.org/news/how-to-format-a-date-with-javascript-date-formatting-in-js/
 const formatter = new Intl.DateTimeFormat("vi-VN", {
@@ -88,7 +137,10 @@ const formatter = new Intl.DateTimeFormat("vi-VN", {
   month: "2-digit",
   year: "numeric",
 });
-
+// cập nhập lại format của date do chuyển đổi qua lại
+petArr.forEach((pet) => (pet.date = new Date(pet.date)));
+// show danh sách thú cưng lấy từ localStorage khi khởi chạy web
+showDanhSachThuCung(petArr);
 // 5. Hiển thị danh sách thú cưng
 // 5.1 tạo danh sách thú cưng
 function renderTableData(petArr) {
@@ -132,14 +184,17 @@ function renderTableData(petArr) {
 // 5.2 hiển thị nó
 // 5. hiển thị danh sách thú cưng
 function showDanhSachThuCung(petArr) {
+  //khởi tạo lại bảng để tránh lặp dữ liệu hiển thị
   tableBodyEl.innerHTML = "";
   const row = document.createElement("tr");
+  // iterate qua dữ liệu và hiển thị
   for (let i = 0; i < petArr.length; i++) {
     renderTableData(petArr[i]);
   }
 }
 
 // 6. Xóa các dữ liệu vừa nhập trên Form
+
 const clearInput = () => {
   idInput.value = "";
   nameInput.value = "";
@@ -161,7 +216,8 @@ const deletePet = (petId) => {
     const indexOfPetId = listID.indexOf(petId);
     listID.splice(indexOfPetId, 1);
     petArr.splice(indexOfPetId, 1);
-    // show lại danh sach thu cung sau khi xoa
+    saveToStorage("petArrLocalStorage", JSON.stringify(petArr));
+    // show lại danh sach thu cung sau khi xóa
     showDanhSachThuCung(petArr);
   }
 };
@@ -227,6 +283,10 @@ submitBtn.addEventListener("click", function () {
     // 4. thêm thú cưng vào danh sách
     petArr.push(data);
     clearInput();
+
+    // Ass2.2 lưu dữ liệu vào dạng JSON và lưu vào localStorage
+    // petArrStringify = JSON.stringify(petArr);
+    saveToStorage("petArrLocalStorage", JSON.stringify(petArr));
   }
   // 5. hiển thị  danh sách thú cưng
   showDanhSachThuCung(petArr);
@@ -238,4 +298,14 @@ bmiBtn.addEventListener("click", function () {
     petArr[i].bmi = calcBMI(petArr[i]).toFixed(2);
   }
   showDanhSachThuCung(petArr);
+});
+
+//Assignment 2
+
+// 1. Bắt sự kiện click vào sidebar, toggle class active
+// const sidebarEl = document.getElementById("sidebar");
+sidebarEl.addEventListener("click", function (e) {
+  //dùng preventDefault sẽ ngăn việc chuyển trang bằng button trên sidebar
+  // e.preventDefault();
+  sidebarEl.classList.toggle("active");
 });
