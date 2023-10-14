@@ -1,6 +1,8 @@
 "use strict";
 
 //khai báo dữ liệu
+
+const sidebarEl = document.getElementById("sidebar");
 const submitBtn = document.getElementById("submit-btn");
 const idInput = document.getElementById("input-id");
 const nameInput = document.getElementById("input-name");
@@ -96,6 +98,7 @@ function inputToForm(pet) {
   weightInput.value = pet.weight;
   lengthInput.value = pet.length;
   breedInput.value = pet.breed;
+  colorInput.value = pet.color;
   vaccinatedInput.checked = pet.vaccinated;
   dewormedInput.checked = pet.dewormed;
   sterilizedInput.checked = pet.sterilized;
@@ -204,6 +207,7 @@ function clearInput() {
   weightInput.value = "";
   lengthInput.value = "";
   breedInput.value = "Select Breed";
+  colorInput.value = "";
   vaccinatedInput.checked = false;
   dewormedInput.checked = false;
   sterilizedInput.checked = false;
@@ -250,6 +254,7 @@ submitBtn.addEventListener("click", function () {
     petArr[indexOfPetId].weight = data.weight;
     petArr[indexOfPetId].length = data.length;
     petArr[indexOfPetId].breed = data.breed;
+    petArr[indexOfPetId].color = data.color;
     petArr[indexOfPetId].vaccinated = data.vaccinated;
     petArr[indexOfPetId].dewormed = data.dewormed;
     petArr[indexOfPetId].sterilized = data.sterilized;
@@ -257,14 +262,23 @@ submitBtn.addEventListener("click", function () {
     // Ass2.2 lưu dữ liệu vào dạng JSON và lưu vào localStorage
     // petArrStringify = JSON.stringify(petArr);
     saveToStorage("petArrLocalStorage", JSON.stringify(petArr));
-  }
-  // 5. hiển thị  danh sách thú cưng
-  showDanhSachThuCung(petArr);
+    // 5. hiển thị  danh sách thú cưng
+    showDanhSachThuCung(petArr);
 
-  // ẩn form đi
-  containerForm.classList.add("hide");
+    // ẩn form đi
+    containerForm.classList.add("hide");
+  }
 });
 // show danh sách thú cưng lấy từ localStorage khi khởi chạy web
 
 typeInput.addEventListener("change", renderBreed);
 showDanhSachThuCung(petArr);
+//Assignment 2
+
+// 1. Bắt sự kiện click vào sidebar, toggle class active
+// const sidebarEl = document.getElementById("sidebar");
+sidebarEl.addEventListener("click", function (e) {
+  //dùng preventDefault sẽ ngăn việc chuyển trang bằng button trên sidebar
+  // e.preventDefault();
+  sidebarEl.classList.toggle("active");
+});
