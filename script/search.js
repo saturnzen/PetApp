@@ -14,7 +14,7 @@ const sterilizedInput = document.getElementById("input-sterilized");
 const tableBodyEl = document.getElementById("tbody");
 //danh sách thú cưng
 let petArrStringify;
-
+renderBreed();
 const petArr =
   getFromStorage("petArrLocalStorage") === undefined
     ? []
@@ -44,7 +44,10 @@ function checkFieldName(pet, field, valueCheck) {
   if (valueCheck === "") {
     return true;
   } else {
-    return pet[filed].includes(valueCheck);
+    return (
+      pet[field].includes(valueCheck.toUpperCase()) ||
+      pet[field].includes(valueCheck.toLowerCase())
+    );
   }
 }
 
@@ -73,6 +76,7 @@ function renderBreed() {
   //xóa Breed đã tạo trước đó
   for (let i = 0; i <= breedInput.options.length + 2; i++) {
     breedInput.options.remove(1);
+    console.log(breedInput.options.length, i);
   }
   // tiến hành thêm vào
   const breedArr =
@@ -83,6 +87,7 @@ function renderBreed() {
   const breedOnly = [];
   breedArr.forEach((br) => breedOnly.push(br.name));
   breedOnly.sort();
+  console.log(breedOnly);
   breedOnly.forEach((breed) => {
     const option = document.createElement("option");
     option.textContent = breed;
@@ -148,7 +153,7 @@ sidebarEl.addEventListener("click", function (e) {
 });
 
 // khi chọn Breed
-breedInput.addEventListener("click", renderBreed);
+// breedInput.addEventListener("click", renderBreed);
 //khi ấn nút find
 findBtn.addEventListener("click", function () {
   // lấy dữ liệu và kiểm tra trước khi nhập lại vào bảng
@@ -174,7 +179,6 @@ findBtn.addEventListener("click", function () {
       checkFieldVaccin(pet, data, "dewormed") &&
       checkFieldVaccin(pet, data, "sterilized")
   );
-  console.log(truePetArr);
   // 5. hiển thị  danh sách thú cưng
   showDanhSachThuCung(truePetArr);
 });
